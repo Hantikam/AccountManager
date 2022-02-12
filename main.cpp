@@ -13,44 +13,44 @@ string tempEmail;
 class Account
 {
 private:
-    string name;
-    string password;
-    string email;
+    string m_name;
+    string m_password;
+    string m_email;
 
 public:
     Account();
     Account(string _name, string _password, string _email)
          {
-             name = _name;
-             password = _password;
-             email = _email;
+             m_name = _name;
+             m_password = _password;
+             m_email = _email;
          }
     ~Account(){};
 
     string getPassword() const
     {
-        return password;
+        return m_password;
     }
     string getName() const
     {
-        return name;
+        return m_name;
     }
     string getEmail() const
     {
-        return email;
+        return m_email;
     }
 
 };
 
 std::vector<Account> accounts;  // VECTOR DECLARATION
 
-void showMenu() // SHOW MENU
+void showMenu() // SHOW MENU ON CONSOLE
 {
-    std::cout << "*********[ACCOUNT MANAGING SYSTEM]*********" << std::endl;
-    std::cout << "1: Create account " << std::endl;
-    std::cout << "2: Delete account " << std::endl;
-    std::cout << "3: Log accounts " << std::endl;
-    std::cout << "4: Exit " << std::endl;
+    std::cout << "************[ACCOUNT MANAGING SYSTEM]************" << std::endl;
+    std::cout << "              1: Create account                  " << std::endl;
+    std::cout << "              2: Delete account                  " << std::endl;
+    std::cout << "              3: Log accounts                    " << std::endl;
+    std::cout << "              4: Exit                            " << std::endl;
 }
 void createAcc(std::vector<Account>& accounts)  // CREATING NEW ACCOUNT AND PLACING IT IN VECTOR "accounts"
 {
@@ -64,16 +64,10 @@ void createAcc(std::vector<Account>& accounts)  // CREATING NEW ACCOUNT AND PLAC
 
     accounts.push_back(newAccount);
 }
-/* void deleteAcc(std::vector<Account> &accounts)
+
+void deleteAcc(std::vector<Account>& accounts) //   REMOVING AND ERASING OBJECT FROM VECTOR "accounts"
 {
-    /* std::vector<Account>::iterator it;
-    it = std::remove_if(accounts.begin(), accounts.end(), isExistingAcc());
-    accounts.erase(it, accounts.end()); 
-    remove(accounts.begin(), accounts.end(), isExistingAcc());
-} */
-void deleteAcc(std::vector<Account>& accounts)
-{
-    string delName, delPassword, delEmail;
+    string delName,delPassword,delEmail;
     std::cout << "Name: ";
     std::cin >> delName;
     std::cout << std::endl;
@@ -83,29 +77,31 @@ void deleteAcc(std::vector<Account>& accounts)
     std::cin >> delEmail;
     for (int i = 0; i < accounts.size(); i++)
     {
-        if (accounts[i].getName() == delName && delPassword == accounts[i].getPassword())
-           {    accounts.erase(std::remove(accounts.begin(), accounts.end(), delName), accounts.end());
+        if (accounts[i].getName() == delName && delPassword == accounts[i].getPassword() && delEmail==accounts[i].getEmail())
+           {
+                /* accounts.erase(std::remove(accounts.begin(), accounts.end(), delName), accounts.end());
                 accounts.erase(std::remove(accounts.begin(), accounts.end(), delPassword), accounts.end());
-                accounts.erase(std::remove(accounts.begin(), accounts.end(), delEmail), accounts.end());
-           }
+                accounts.erase(std::remove(accounts.begin(), accounts.end(), delEmail), accounts.end()); */
+                //accounts.erase(std::remove(accounts.begin(), accounts.end(), accounts[i]), accounts.end());
+                //it= remove(accounts.begin(),accounts.end(), accounts[i]);
+                bool isFound = false;
+                std::vector <Account>::iterator it3;
+                for (it3 = accounts.begin(); it3 != accounts.end(); ++it3) {
+                    if (delName==it3->getName() && delPassword==it3->getPassword() && delEmail==it3->getEmail()) {
+                    it3 = accounts.erase(it3); // After erasing, it3 is now pointing the next location.
+                    --it3; // Go to the prev location because of ++it3 in the end of for loop.
+                    isFound = true;
     }
-    /*     std::vector<Account>::iterator it;
-    for (it = accounts.begin(); it != accounts.end();)
-    {
-        /* delName = (*it).getName();
-        delPassword = (*it).getPassword(); 
-        if (delName == (*it).getName() && delPassword == (*it).getPassword())
-        {
-            // store the return value from erase!!
-            //accounts.erase(std::remove(accounts.begin(),accounts.end(), isExistingAcc()), accounts.end());
-            //it = accounts.erase(it);
-        }
-        else
-        {
-            // increment here rather than in the for loop incrementer
-            it++;
-        }
-    }  */
+                if (!isFound) 
+                {
+                    std::cout << "[INVALID USER INPUT]"<<std::endl;
+                }
+}
+
+           }
+    
+    
+    }  
 }
 void logAcc(const std::vector<Account> &accounts)
 {
@@ -118,27 +114,9 @@ void logAcc(const std::vector<Account> &accounts)
         std::cout << std::endl;
     }
     std::cout << std::endl;
+    std::cout<<accounts.size()<<std::endl;
 }
-/* bool isExistingAcc() 
-{
-    string delName, delPassword,delEmail;
-    std::cout << "Name: ";
-    std::cin >> delName;
-    std::cout << std::endl;
-    std::cout << "Password: ";
-    std::cin >> delPassword;
-    std::cout << "Email: ";
-    std::cin >> delEmail;
-    for (int i = 0; i < accounts.size(); i++)
-    {
-        if (accounts[i].getName() == delName && accounts[i].getPassword() == delPassword && accounts[i].getEmail()==delEmail)
-            {
-                return 1;
-            }
-        else
-            return 0;
-    }
-} */
+
 int main()
 
 {
@@ -159,7 +137,7 @@ int main()
             case 2:
                 deleteAcc(accounts);
                 system("cls");
-                showMenu();
+                showMenu(); 
                 break;
             case 3:
                 system("cls");
