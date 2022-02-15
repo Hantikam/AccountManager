@@ -136,7 +136,8 @@ int main()
                     break;
                 default:
                     system("cls");
-                    std::cout << "[INVALID OPTION]";
+                    std::cout << "              [INVALID OPTION]"<< std::endl;
+                    std::cout<<std::endl;
                     showMenu();
                     break;
             }        
