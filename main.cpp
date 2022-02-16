@@ -41,8 +41,15 @@ public:
     }
 
 };
+std::ostream& operator<<(std::ostream& stream, const Account& acc)
+{
+    stream << "|Username: " << acc.getName() << "|" << std::endl;
+    stream << "|Email: " << acc.getEmail() << "|" << std::endl;
+    stream << "|Password: " << acc.getPassword() << "|" << std::endl;
+    return stream;
+}
 
-std::vector<Account> accounts;  // VECTOR DECLARATION
+    std::vector<Account> accounts; // VECTOR DECLARATION
 
 void showMenu() // SHOW MENU ON CONSOLE
 {
@@ -62,7 +69,7 @@ void createAcc(std::vector<Account>& accounts)  // CREATING NEW ACCOUNT AND PLAC
     std::cin >> tempEmail;
     Account newAccount(tempUserName, tempPassw, tempEmail);  // CREATING TEMPORARY OBJECT
 
-    accounts.push_back(newAccount);
+    accounts.emplace_back(newAccount);
 }
 
 void deleteAcc(std::vector<Account>& accounts)  // REMOVING AND ERASING OBJECT FROM VECTOR "accounts"
@@ -83,24 +90,20 @@ void deleteAcc(std::vector<Account>& accounts)  // REMOVING AND ERASING OBJECT F
                     {
                         it = accounts.erase(it); 
                         it--; 
-                        isFound = true;  // USER TO BE DELETED 
+                        isFound = true;  // USER TO BE DELETED
+                        std::cout << "[ACCOUNT DELETED SUCCESSFULLY]" << std::endl;
                     }
             }
-        if (!isFound) 
-            std::cout << "[INVALID USER INPUT]"<< std::endl;    
-      
+        if (!isFound)
+            std::cout << "[INVALID USER INPUT]" << std::endl;
 }
-void logAcc(const std::vector<Account> &accounts)
+void logAcc(const std::vector<Account>& accounts)
     {
-        std::cout << "[REGISTERED ACCOUNTS]" << std::endl;
+        std::cout << "      [REGISTERED ACCOUNTS]" << std::endl;
         for (int i = 0; i < accounts.size(); i++)
             {
-                std::cout <<"Username: "<< accounts[i].getName() << std::endl;
-                std::cout <<"Password: "<< accounts[i].getPassword() << std::endl;
-                std::cout <<"Email: "<< accounts[i].getEmail() << std::endl;
-                std::cout << std::endl;
+                std::cout << accounts[i] << std::endl;
             }
-        std::cout << std::endl;
     }
 
 int main()
@@ -122,7 +125,6 @@ int main()
                     break;
                 case 2:
                     deleteAcc(accounts);
-                    system("cls");
                     showMenu(); 
                     break;
                 case 3:
