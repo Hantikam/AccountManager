@@ -1,14 +1,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <algorithm>
 using std::string;
 
-int option;
-bool quit=false;
-string tempUserName;
-string tempPassw;
-string tempEmail;
 
 class Account
 {
@@ -61,6 +55,9 @@ void showMenu() // SHOW MENU ON CONSOLE
 }
 void createAcc(std::vector<Account>& accounts)  // CREATING NEW ACCOUNT AND PLACING IT IN VECTOR "accounts"
 {
+    string tempUserName;
+    string tempPassw;
+    string tempEmail;
     std::cout << "Username: ";
     std::cin >> tempUserName;
     std::cout << "Password: ";
@@ -92,10 +89,12 @@ void deleteAcc(std::vector<Account>& accounts)  // REMOVING AND ERASING OBJECT F
                         it--; 
                         isFound = true;  // USER TO BE DELETED
                         std::cout << "[ACCOUNT DELETED SUCCESSFULLY]" << std::endl;
+                        std::cout<<std::endl;
                     }
             }
         if (!isFound)
             std::cout << "[INVALID USER INPUT]" << std::endl;
+            std::cout<<std::endl;
 }
 void logAcc(const std::vector<Account>& accounts)
     {
@@ -111,8 +110,10 @@ int main()
 {
     system("cls");
     showMenu();
+    bool quit=false;
     while(!quit)
         {
+            int option;
             std::cout << "Select an option from above: ";
             std::cin >> option;
         
